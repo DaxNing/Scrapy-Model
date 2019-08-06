@@ -7,7 +7,7 @@ import json
 import time
 import random
 
-class Detick(scrapy.Spider):
+class mySpider(scrapy.Spider):
 
     name = "cnnindonesia"
 
