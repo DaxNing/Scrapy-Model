@@ -11,9 +11,9 @@ class mySpider(scrapy.Spider):
 
     name = "tempo"
 
-    # allowed_domains = ["cnnindonesia.com"]
+    # allowed_domains = ["tempo.com"]
     start_urls=['https://bisnis.tempo.co/read/1232248/mandiri-tebar-inspirasi-wirausaha-ke-generasi-muda']
-    i=1271
+    i=1
 
 
     original_url = start_urls[0]
@@ -56,7 +56,7 @@ class mySpider(scrapy.Spider):
             json.dump(dic,f)
             f.write("\n")
 
-        j = random.randint(1, 4)
+        j = random.randint(1, 4) #随机选取下一爬取文章链接
         next_page = response.xpath("/html[@id='tempoco-2017']/body/div[@class='container']/main[@id='detail']/div[@class='container-desktop']/section[@id='article']/div[@class='col w-70']/div[@class='wrapper']/section[@id='section-3']/div[@class='wrapper clearfix'][1]/div[@id='terkait']/div[@class='wrapper']/li["+str(j)+"]/div[@class='card card-type-1']/div[@class='wrapper clearfix']/a[@class='col'][2]/@href").extract()[0]
         self.original_url = next_page
         if next_page is not None:
