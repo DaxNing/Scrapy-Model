@@ -8,35 +8,38 @@ import time
 import random
 
 class mySpider(scrapy.Spider):
-
+    #分页爬取
+    
     name = "cnnindonesia_url"
 
     # allowed_domains = ["cnnindonesia.com"]
     start_urls=['https://www.cnnindonesia.com/indeks?date=2019/07/01']
 
     i=1
-    k=2
+    k=2 #页数
     def parse(self,response):
 
-        i=1
+        s=1
         while True:
 
-            url_xpath='//*[@id="content"]/div/div[4]/div/div[1]/article['+ str(i) +']/a/@href'
+            url_xpath='//*[@id="content"]/div/div[4]/div/div[1]/article['+ str(s) +']/a/@href'
             url_list=response.xpath(url_xpath).extract()
             print(url_list)
             if len(url_list)!=0:
                 yield scrapy.Request(response.urljoin(url_list[0].encode("utf-8")),callback=self.choose_content)
-                i+=1
+                s+=1
             else:
                 break
 
-        next_page="https://www.cnnindonesia.com/indeks/"+str(self.k)+"?date=Semua%20Tgl&kanal=2"
+        next_page="https://www.cnnindonesia.com/indeks/"+str(self.k)+"?date=Semua%20Tgl&kanal=2"  #下一页链接
         self.k+=1
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
 
     def choose_content(self,response):
+        #爬取每篇文章内容
+        
         dic = {}
         title_list = response.xpath(
             "/html/body/section[@id='content']/div[@class='container']/div[@class='l_content']/div[@class='content_detail']/h1[@class='title']//text()").extract()
