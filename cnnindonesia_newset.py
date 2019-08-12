@@ -31,7 +31,7 @@ class mySpider(scrapy.Spider):
 
 
     i=1
-    k=2
+    k=2   #页数
 
     now = start_date
     def parse(self,response):
@@ -48,19 +48,19 @@ class mySpider(scrapy.Spider):
             else:
                 break
 
-        if s == 1 and self.now != "2017/01/01":  # 说明这页完全没有内容 or 不存在，跳转日期 #设置终止时间
+        if s == 1:  # 说明这页完全没有内容 or 不存在，跳转日期 
             self.now = self.get_before(self.now)
             print("skipping date:%s" % (self.now))
             with open("C:/Users/86135/Desktop/Spider_works/id_articles_from_lsscnnindonesia_day.txt", "a") as o:
                 o.write("skipping date: " + self.now + "\n")
             self.k = 1
 
-
-        next_page="https://www.cnnindonesia.com/indeks?date="+self.now+"&p="+str(self.k)+"&date="+self.now+"&kanal=2"
-        self.k+=1
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield scrapy.Request(next_page, callback=self.parse)
+        if  and self.now != "2017/01/01":   #设置终止时间
+            next_page="https://www.cnnindonesia.com/indeks?date="+self.now+"&p="+str(self.k)+"&date="+self.now+"&kanal=2"
+            self.k+=1
+            if next_page is not None:
+                next_page = response.urljoin(next_page)
+                yield scrapy.Request(next_page, callback=self.parse)
 
     def choose_content(self,response):
         dic = {}
