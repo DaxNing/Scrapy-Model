@@ -15,7 +15,7 @@ class mySpider(scrapy.Spider):
 
     start_date = '2016-12-31'
     # allowed_domains = ["kompas.com"]
-    start_urls=['https://indeks.kompas.com/all/'+start_date]
+    start_urls = ['https://indeks.kompas.com/all/'+start_date]
 
 
 
@@ -36,8 +36,8 @@ class mySpider(scrapy.Spider):
         pie = 1
         while True:
 
-            url_xpath ='/html/body/div[2]/div[3]/div[1]/div[3]/div['+str(pie)+']/div[2]/h3/a/@href'
-            url_list=response.xpath(url_xpath).extract()
+            url_xpath = '/html/body/div[2]/div[3]/div[1]/div[3]/div['+str(pie)+']/div[2]/h3/a/@href'
+            url_list = response.xpath(url_xpath).extract()
             print(url_list)
             if len(url_list) != 0:
                 yield scrapy.Request(response.urljoin(url_list[0].encode("utf-8")), callback=self.choose_content)
@@ -74,10 +74,10 @@ class mySpider(scrapy.Spider):
         while True:
             content_xpath = "/html/body/div[3]/div[3]/div[1]/div[4]/div[2]/div[1]/p["+str(para)+"]//text()"
             con = response.xpath(content_xpath).extract()
-            if len(con) ==0:
+            if len(con) == 0:
                 content_xpath = "/html/body/div[3]/div[3]/div[1]/div[3]/div[2]/div[1]/p[" + str(para) + "]//text()"
                 con = response.xpath(content_xpath).extract()
-            if len(con) ==0:
+            if len(con) == 0:
                 content_xpath = "/html/body/div[3]/div[3]/div[1]/div[5]/div[2]/div[1]/p[" + str(para) + "]//text()"
                 con = response.xpath(content_xpath).extract()
             if len(con) != 0:
