@@ -23,7 +23,7 @@ class mySpider(scrapy.Spider):
     start_date ='04/22/2017'
 
     # allowed_domains = ["detik.com"]
-    start_urls=['https://news.detik.com/indeks/berita/1?date='+start_date]
+    start_urls = ['https://news.detik.com/indeks/berita/1?date='+start_date]
 
     def get_before(self,date):
         date_list = date.split("/")
@@ -40,12 +40,12 @@ class mySpider(scrapy.Spider):
     k = 2
 
     def parse(self,response):
-        s=1
-        while s<=20:
+        s = 1
+        while s <= 20:
 
-            url_xpath='//*[@id="indeks-container"]/li['+str(s)+']/article/div/a/@href'
-            url_list=response.xpath(url_xpath).extract()
-            if len(url_list)!=0:
+            url_xpath = '//*[@id="indeks-container"]/li['+str(s)+']/article/div/a/@href'
+            url_list = response.xpath(url_xpath).extract()
+            if len(url_list) != 0:
                 yield scrapy.Request(response.urljoin(url_list[0].encode("utf-8")),callback=self.choose_content)
                 s += 1
             else:
