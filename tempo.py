@@ -12,16 +12,16 @@ class mySpider(scrapy.Spider):
     name = "tempo"
 
     # allowed_domains = ["cnnindonesia.com"]
-    start_urls=['https://otomotif.tempo.co/read/1231144/mobil-versi-murah-tesla-model-3-akan-meluncur-di-indonesia']
-    i=975
+    start_urls = ['https://otomotif.tempo.co/read/1231144/mobil-versi-murah-tesla-model-3-akan-meluncur-di-indonesia']
+    i = 975
 
 
     original_url = start_urls[0]
     def parse(self,response):
         dic = {}
         title_list = response.xpath("/html[@id='tempoco-2017']/body/div[@class='container']/main[@id='detail']/div[@class='container-desktop']/section[@id='article']/div[@class='col w-70']/div[@class='wrapper']/article/h1//text()").extract()
-        if len(title_list)!= 0:
-            title =title_list[0].strip().replace("\n","")
+        if len(title_list) != 0:
+            title = title_list[0].strip().replace("\n","")
 
         else:
             title = "No Title!"
@@ -47,11 +47,11 @@ class mySpider(scrapy.Spider):
             content = "No Content!"
 
         print(self.i)
-        dic["item_id"]=self.i
-        dic["title"]=title
-        dic["content"]=content
-        dic["original_url"]=self.original_url
-        self.i+=1
+        dic["item_id"] = self.i
+        dic["title"] = title
+        dic["content"] = content
+        dic["original_url"] = self.original_url
+        self.i += 1
         with io.open("C:/Users/86135/Desktop/Spider_works/id_articles_from_tempo_2.txt","ab") as f:
             json.dump(dic,f)
             f.write("\n")
