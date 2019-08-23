@@ -14,7 +14,7 @@ class mySpider(scrapy.Spider):
 
     start_date = '2018/11/01'
     # allowed_domains = ["cnnindonesia.com"]
-    start_urls=['https://www.cnnindonesia.com/indeks?date='+start_date+'&p=1&date='+start_date+'&kanal=2']
+    start_urls = ['https://www.cnnindonesia.com/indeks?date='+start_date+'&p=1&date='+start_date+'&kanal=2']
 
 
 
@@ -29,21 +29,21 @@ class mySpider(scrapy.Spider):
         return before
 
 
-    i=1
-    k=2
+    i = 1
+    k = 2 
 
     now = start_date
     def parse(self,response):
 
-        s=1
+        s = 1
         while True:
 
-            url_xpath='//*[@id="content"]/div/div[4]/div/div[1]/article['+ str(s) +']/a/@href'
-            url_list=response.xpath(url_xpath).extract()
+            url_xpath = '//*[@id="content"]/div/div[4]/div/div[1]/article['+ str(s) +']/a/@href'
+            url_list = response.xpath(url_xpath).extract()
             print(url_list)
-            if len(url_list)!=0:
+            if len(url_list) != 0:
                 yield scrapy.Request(response.urljoin(url_list[0].encode("utf-8")),callback=self.choose_content)
-                s+=1
+                s += 1
             else:
                 break
 
@@ -55,8 +55,8 @@ class mySpider(scrapy.Spider):
             self.k = 1
 
         if self.now != "2017/01/01": #设置终止时间
-            next_page="https://www.cnnindonesia.com/indeks?date="+self.now+"&p="+str(self.k)+"&date="+self.now+"&kanal=2"
-            self.k+=1
+            next_page = "https://www.cnnindonesia.com/indeks?date="+self.now+"&p="+str(self.k)+"&date="+self.now+"&kanal=2"
+            self.k += 1
             if next_page is not None:
                 next_page = response.urljoin(next_page)
                 yield scrapy.Request(next_page, callback=self.parse)
